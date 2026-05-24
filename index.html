@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shubham Dey | Exoplanet Researcher Portfolio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        :root {
+            --bg-space: #05050a;
+            --card-bg: rgba(15, 23, 42, 0.6);
+            --border-glow: rgba(56, 189, 248, 0.2);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-purple: #a855f7;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-space);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Starry Background Effect */
+        #stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #0b1528 0%, #05050a 100%);
+        }
+
+        /* Container Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        sidebar {
+            width: 300px;
+            background: rgba(10, 10, 18, 0.9);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 10;
+        }
+
+        .profile-zone {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .profile-zone h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-zone p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-blue);
+            background: rgba(56, 189, 248, 0.1);
+            transform: translateX(5px);
+        }
+
+        .contact-footer {
+            margin-top: auto;
+            padding-top: 1rem;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        .contact-item:hover { color: var(--accent-blue); }
+
+        /* Main Content Window */
+        main {
+            margin-left: 300px;
+            flex-grow: 1;
+            padding: 3rem;
+            max-width: 1200px;
+        }
+
+        section {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        section.active-section {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border-glow);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        /* Glassmorphism Cards */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glow);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: border-color 0.3s;
+        }
+        .card:hover {
+            border-color: rgba(56, 189, 248, 0.5);
+        }
+
+        .card-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .meta-time {
+            background: rgba(168, 85, 247, 0.2);
+            color: var(--accent-purple);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* Interactive Timeline Tracker */
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            border-left: 2px solid var(--accent-blue);
+            margin-bottom: 1.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-blue);
+        }
+
+        /* Badges / Grid formatting */
+        .badge-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .badge {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0.3rem 0.7rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+        }
+
+        /* Interactive Sandbox Component */
+        .sandbox-panel {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 1.5rem;
+        }
+        canvas {
+            background: #020205;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+            width: 100%;
+            height: 350px;
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .control-group label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        .control-group input {
+            width: 100%;
+            accent-color: var(--accent-blue);
+        }
+        .metric-display {
+            background: rgba(0,0,0,0.3);
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-glow);
+        }
+
+        /* Responsive Breakpoint */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            sidebar { width: 100%; height: auto; position: relative; }
+            main { margin-left: 0; padding: 1.5rem; }
+            .sandbox-panel { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="stars"></canvas>
+
+    <div class="app-container">
+        <sidebar>
+            <div class="profile-zone">
+                <h1>Shubham Dey</h1>
+                <p>Exoplanet Scientist</p>
+            </div>
+            
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#" class="active" onclick="switchSection('about', this)"><i class="fa-solid fa-user"></i> Overview</a></li>
+                    <li><a href="#" onclick="switchSection('research', this)"><i class="fa-solid fa-atom"></i> Research Projects</a></li>
+                    <li><a href="#" onclick="switchSection('sandbox', this)"><i class="fa-solid fa-satellite"></i> Orbit Sandbox</a></li>
+                    <li><a href="#" onclick="switchSection('publications', this)"><i class="fa-solid fa-book-open"></i> Publications</a></li>
+                    <li><a href="#" onclick="switchSection('skills', this)"><i class="fa-solid fa-gears"></i> Expert Skills</a></li>
+                </ul>
+            </nav>
+
+            <div class="contact-footer">
+                <a href="mailto:sd22ip004@iiserkol.ac.in" class="contact-item"><i class="fa-solid fa-envelope"></i> sd22ip004@iiserkol.ac.in</a>
+                <div class="contact-item"><i class="fa-solid fa-location-dot"></i> NISER / IISER Kolkata</div>
+                <div class="contact-item" style="font-size: 0.75rem; color: var(--accent-purple); margin-top: 0.5rem;"><i class="fa-solid fa-award"></i> CSIR-NET & JEST Qualified</div>
+            </div>
+        </sidebar>
+
+        <main>
+            <section id="about" class="active-section">
+                <h2>Overview</h2>
+                <div class="card">
+                    <p style="font-size: 1.1rem;">Welcome! I am a computational astrophysicist focusing on the structural dynamics and atmospheric characteristics of exoplanetary bodies. My work encompasses high-resolution transmission spectroscopy, photochemical modeling development, and orbital multi-body tracking dynamics.</p>
+                </div>
+
+                <h3>Academic Pipeline</h3>
+                <div style="margin-top:1rem;">
+                    <div class="timeline-item">
+                        <div class="card-header-flex">
+                            <h4>Post-Masters Research</h4>
+                            <span class="meta-time">2024 - Present</span>
+                        </div>
+                        <p style="color: var(--text-secondary);">NISER, Bhubaneswar • Advisor: Dr. Liton Majumdar</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="card-header-flex">
+                            <h4>M.Sc. in Physics (Astrophysics Division)</h4>
+                            <span class="meta-time">2022 - 2024</span>
+                        </div>
+                        <p style="color: var(--text-secondary);">IISER Kolkata • CPI: 8.42 / 10</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="card-header-flex">
+                            <h4>B.Sc. in Physical Sciences (Math Minor)</h4>
+                            <span class="meta-time">2018 - 2021</span>
+                        </div>
+                        <p style="color: var(--text-secondary);">Visva Bharati University • CPI: 8.05 / 10</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="research">
+                <h2>Research Experience</h2>
+                
+                <div class="card">
+                    <div class="card-header-flex">
+                        <h3>1. High-Resolution Spectroscopy & Mass Constraints</h3>
+                        <span class="meta-time">Apr 2025 - Present</span>
+                    </div>
+                    <p><strong>Mentors:</strong> Prof. Andrew Vanderburg (Harvard), Dr. Saugata Barat (MIT)</p>
+                    <p style="margin-top: 0.5rem; color: var(--text-secondary);">Generated high-resolution atmospheric transmission spectra models of HIP 67522 b via petitRADTRANS. Performed synthetic injection-recovery loops with batman software configurations to map cross-correlation metrics ($K_{P}-V_{sys}$) and extract robust atmospheric configurations.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header-flex">
+                        <h3>2. XODIAC: Parallel GPU Photochemical Framework</h3>
+                        <span class="meta-time">Oct 2024 - Jul 2025</span>
+                    </div>
+                    <p><strong>Mentor:</strong> Dr. Liton Majumdar (NISER)</p>
+                    <p style="margin-top: 0.5rem; color: var(--text-secondary);">Engineered core aspects of the kinetics software engine. Standardized massive heterogeneous reaction trees (Arrhenius, Kooij formulation configurations) to assure processing matrix stability across complex network paths. Benchmarked cross-validations successfully against older legacy tools like VULCAN.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header-flex">
+                        <h3>3. CLIMAX: 1D Radiative-Convective Toolchain</h3>
+                        <span class="meta-time">Sep 2024 - Present</span>
+                    </div>
+                    <p><strong>Mentor:</strong> Dr. Liton Majumdar (NISER)</p>
+                    <p style="margin-top: 0.5rem; color: var(--text-secondary);">Developed modular structural frameworks accommodating hot Jovian bodies to cold brown dwarfs. Implemented atmospheric opacity paths, automated chemical integration logic via FastChem software engines, and integrated native XODIAC hooks to couple structural mechanics with photo-reactive paths dynamically.</p>
+                </div>
+            </section>
+
+            <section id="sandbox">
+                <h2>Interactive Sandbox: Exomoon N-Body Framework</h2>
+                <div class="card">
+                    <p style="margin-bottom: 1rem; color:var(--text-secondary)">Inspired by your work with the <strong>REBOUND integrator on TRAPPIST-1</strong> system dynamics. Below is a real-time tracking proxy engine evaluating orbital configurations inside deep gravity wells. Modify the distance parameters to see where moons survive or undergo rapid disruption escape paths.</p>
+                    
+                    <div class="sandbox-panel">
+                        <div>
+                            <canvas id="simCanvas"></canvas>
+                        </div>
+                        <div class="controls">
+                            <div class="control-group">
+                                <label>Exomoon Semi-major Axis (Distance)</label>
+                                <input type="range" id="moonDist" min="20" max="140" value="60">
+                            </div>
+                            <div class="control-group">
+                                <label>Perturber Mass (Neighboring Planet Factor)</label>
+                                <input type="range" id="perturbFactor" min="0" max="10" value="2">
+                            </div>
+                            <div class="metric-display">
+                                Status: <span id="simStatus" style="color:var(--accent-blue)">Stable System</span><br>
+                                Elapsed Cycles: <span id="simTime">0</span>
+                            </div>
+                            <button onclick="resetSim()" style="background:var(--accent-blue); color:#000; border:none; padding:0.5rem; border-radius:6px; font-weight:bold; cursor:pointer;">Reset Integration Loop</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="publications">
+                <h2>Publications</h2>
+                
+                <div class="card" style="border-left: 4px solid var(--accent-purple);">
+                    <span class="meta-time" style="float: right;">In Review</span>
+                    <h4 style="margin-bottom: 0.5rem;">Orbital Stability of Moons Around The TRAPPIST-1 Planets</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;"><strong>Dey, S.</strong> & Raymond, S.N. (2025). <em>The Open Journal of Astrophysics</em>.</p>
+                </div>
+
+                <div class="card" style="border-left: 4px solid var(--accent-blue);">
+                    <span class="meta-time" style="float: right; background: rgba(56,189,248,0.2); color: var(--accent-blue);">Accepted</span>
+                    <h4 style="margin-bottom: 0.5rem;">A Fast, Parallelized, GPU-Accelerated Photochemical Model, XODIAC, with Built-in Equilibrium Chemistry and Multiple Chemical Networks for Exoplanetary Atmospheres</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">Ghosh, P., Mishra, S., <strong>Dey, S.</strong>, Das, D., Rimmer, P.B., & Majumdar, L. (2025). <em>The Astrophysical Journal (ApJ)</em>.</p>
+                </div>
+            </section>
+
+            <section id="skills">
+                <h2>Technical Skill Matrix</h2>
+                
+                <div class="card">
+                    <h3>Computational Engines & Toolchains</h3>
+                    <div class="badge-grid">
+                        <span class="badge">PLUTO (3D MHD)</span>
+                        <span class="badge">BATSRUS</span>
+                        <span class="badge">Stellarium</span>
+                        <span class="badge">petitRADTRANS</span>
+                        <span class="badge">batman</span>
+                        <span class="badge">FastChem</span>
+                        <span class="badge">REBOUND (N-Body)</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Programming Languages</h3>
+                    <div class="badge-grid">
+                        <span class="badge" style="border-color:var(--accent-blue)">Python</span>
+                        <span class="badge" style="border-color:var(--accent-blue)">C / C++</span>
+                        <span class="badge" style="border-color:var(--accent-blue)">Julia</span>
+                        <span class="badge">Fortran</span>
+                        <span class="badge">Haskell (Basic)</span>
+                        <span class="badge">SQL</span>
+                        <span class="badge">MPI (Parallel Computing)</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>HPC Clusters Experiential Profiles</h3>
+                    <div class="badge-grid">
+                        <span class="badge">TACC</span>
+                        <span class="badge">CESSI Cluster</span>
+                        <span class="badge">ASIAA-Kawas</span>
+                        <span class="badge">ASIAA-xl</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Background Matrix Generator
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d');
+        let starsArray = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            generateStars();
+        }
+
+        function generateStars() {
+            starsArray = [];
+            const count = Math.floor((canvas.width * canvas.height) / 3000);
+            for(let i=0; i<count; i++) {
+                starsArray.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 1.5,
+                    opacity: Math.random()
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ffffff';
+            starsArray.forEach(star => {
+                ctx.globalAlpha = star.opacity;
+                ctx.fillRect(star.x, star.y, star.size, star.size);
+            });
+            requestAnimationFrame(drawStars);
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        drawStars();
+
+        // Single Page Navigation Controller
+        function switchSection(sectionId, element) {
+            document.querySelectorAll('main section').forEach(sec => sec.classList.remove('active-section'));
+            document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
+            
+            document.getElementById(sectionId).classList.add('active-section');
+            element.classList.add('active');
+            
+            if(sectionId === 'sandbox') {
+                setTimeout(initSandboxLoop, 50);
+            }
+        }
+
+        // --- ORBITAL SANDBOX ENGINE ---
+        const simCanvas = document.getElementById('simCanvas');
+        const simCtx = simCanvas.getContext('2d');
+        let simFrameId;
+        let t = 0;
+
+        function initSandboxLoop() {
+            if(simFrameId) cancelAnimationFrame(simFrameId);
+            t = 0;
+            runSim();
+        }
+
+        function resetSim() {
+            t = 0;
+        }
+
+        function runSim() {
+            const width = simCanvas.width = simCanvas.parentElement.clientWidth;
+            const height = simCanvas.height = 350;
+            
+            simCtx.clearRect(0,0, width, height);
+            
+            const cx = width / 2;
+            const cy = height / 2;
+            
+            // Render Host Planet 
+            simCtx.beginPath();
+            simCtx.arc(cx, cy, 20, 0, Math.PI*2);
+            simCtx.fillStyle = '#e2e8f0';
+            simCtx.shadowBlur = 15;
+            simCtx.shadowColor = '#38bdf8';
+            simCtx.fill();
+            simCtx.shadowBlur = 0;
+
+            // Fetch Controller Inputs
+            const r = parseFloat(document.getElementById('moonDist').value);
+            const perturberFactor = parseFloat(document.getElementById('perturbFactor').value);
+            
+            t += 0.03;
+            document.getElementById('simTime').innerText = Math.floor(t * 10);
+
+            // Computational stability logic mimicking a three-body boundary limit
+            let statusText = "Stable Tracking Bound";
+            let colorCode = "#38bdf8";
+            
+            // If the moon is set out too far or perturbed heavily, tracking becomes unstable
+            const criticalLimit = 150 - (perturberFactor * 10);
+            if (r > criticalLimit) {
+                statusText = "Orbital Disruption Escape Detached";
+                colorCode = "#ef4444";
+            } else if (r < 35) {
+                statusText = "Gravitational Collapse Path (Tidal Crush)";
+                colorCode = "#f59e0b";
+            }
+
+            const statusLabel = document.getElementById('simStatus');
+            statusLabel.innerText = statusText;
+            statusLabel.style.color = colorCode;
+
+            // Compute Exomoon Coordinates
+            let mx, my;
+            if (statusText === "Orbital Disruption Escape Detached") {
+                // Ejected escape path animation
+                mx = cx + (r + t*4) * Math.cos(t * 0.5);
+                my = cy + (r + t*2) * Math.sin(t * 0.5);
+            } else if (statusText === "Gravitational Collapse Path (Tidal Crush)") {
+                // Inward spiral animation
+                const decay = Math.max(0, 1 - t*0.02);
+                mx = cx + (r * decay) * Math.cos(t * 1.5);
+                my = cy + (r * decay) * Math.sin(t * 1.5);
+            } else {
+                // Standard closed stable tracking loop
+                mx = cx + r * Math.cos(t);
+                my = cy + r * Math.sin(t);
+            }
+
+            // Draw Orbit Track Trace
+            if (statusText === "Stable Tracking Bound") {
+                simCtx.beginPath();
+                simCtx.arc(cx, cy, r, 0, Math.PI*2);
+                simCtx.strokeStyle = 'rgba(56, 189, 248, 0.15)';
+                simCtx.setLineDash([4, 4]);
+                simCtx.stroke();
+                simCtx.setLineDash([]);
+            }
+
+            // Render Dynamic Companion Tracking Payload Node
+            simCtx.beginPath();
+            simCtx.arc(mx, my, 6, 0, Math.PI*2);
+            simCtx.fillStyle = colorCode;
+            simCtx.fill();
+
+            simFrameId = requestAnimationFrame(runSim);
+        }
+    </script>
+</body>
+</html>
