@@ -180,15 +180,15 @@ h2 { font-size: clamp(3.15rem, 6.6vw, 6rem); font-weight: 400; letter-spacing: -
 html.js .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.2,.6,.2,1); }
 html.js .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
-.cursor-orbit { background: radial-gradient(circle, rgba(184, 95, 67, 0.24) 0 9%, rgba(184, 95, 67, 0.11) 10% 28%, transparent 62%); border: 1px solid rgba(184, 95, 67, 0.72); border-radius: 50%; height: 46px; left: 0; mix-blend-mode: multiply; opacity: 0; pointer-events: none; position: fixed; top: 0; transition: opacity 0.18s ease; width: 46px; z-index: 30; }
-.cursor-orbit::before, .cursor-orbit::after { background: var(--lime); content: ""; left: 50%; position: absolute; top: 50%; transform: translate(-50%, -50%); }
-.cursor-orbit::before { height: 2px; width: 15px; }
-.cursor-orbit::after { height: 15px; width: 2px; }
-.cursor-orbit.is-active { opacity: 1; }
-.cursor-spark { animation: cosmic-spark 650ms ease-out forwards; background: var(--lime); border-radius: 50%; box-shadow: 0 0 10px rgba(184, 95, 67, 0.65); height: 4px; left: 0; pointer-events: none; position: fixed; top: 0; width: 4px; z-index: 29; }
+.cursor-glow { background: radial-gradient(circle, rgba(184, 95, 67, 0.3) 0, rgba(184, 95, 67, 0.14) 23%, rgba(184, 95, 67, 0.04) 45%, transparent 69%); border-radius: 50%; height: 280px; left: 0; opacity: 0; pointer-events: none; position: fixed; top: 0; transition: opacity 0.2s ease; width: 280px; z-index: 28; }
+.cursor-glow.is-active { opacity: 1; }
+.cursor-pointer { background: var(--ink); clip-path: polygon(0 0, 0 100%, 28% 75%, 44% 100%, 58% 92%, 42% 66%, 72% 66%); filter: drop-shadow(0 2px 0 var(--paper)) drop-shadow(0 4px 10px rgba(24, 57, 65, 0.28)); height: 25px; left: 0; opacity: 0; pointer-events: none; position: fixed; top: 0; transition: opacity 0.16s ease; width: 19px; z-index: 31; }
+.cursor-pointer.is-active { opacity: 1; }
+html.has-ambient-cursor, html.has-ambient-cursor a, html.has-ambient-cursor button { cursor: none; }
+.cursor-dust { animation: ambient-dust 1180ms cubic-bezier(.15,.7,.24,1) forwards; background: var(--lime); border-radius: 50%; box-shadow: 0 0 8px rgba(184, 95, 67, 0.55); height: var(--dust-size); left: 0; opacity: 0.88; pointer-events: none; position: fixed; top: 0; width: var(--dust-size); z-index: 29; }
 
-@keyframes cosmic-spark {
-  to { opacity: 0; transform: translate(var(--spark-x), var(--spark-y)) scale(0); }
+@keyframes ambient-dust {
+  to { opacity: 0; transform: translate(var(--dust-x), var(--dust-y)) scale(0.15); }
 }
 
 @media (max-width: 800px) {
@@ -239,5 +239,5 @@ html.js .reveal.is-visible { opacity: 1; transform: translateY(0); }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
   .reveal, html.js .reveal { opacity: 1; transform: none; }
-  .cursor-orbit, .cursor-spark { display: none; }
+  .cursor-glow, .cursor-pointer, .cursor-dust { display: none; }
 }

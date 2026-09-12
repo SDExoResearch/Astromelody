@@ -28,36 +28,59 @@ const canUseCursorEffect =
   window.matchMedia("(hover: hover) and (pointer: fine)").matches && !prefersReducedMotion;
 
 if (canUseCursorEffect) {
-  const cursorOrbit = document.createElement("div");
-  cursorOrbit.className = "cursor-orbit";
-  cursorOrbit.setAttribute("aria-hidden", "true");
-  document.body.append(cursorOrbit);
+  document.documentElement.classList.add("has-ambient-cursor");
+
+  const cursorGlow = document.createElement("div");
+  cursorGlow.className = "cursor-glow";
+  cursorGlow.setAttribute("aria-hidden", "true");
+
+  const cursorPointer = document.createElement("div");
+  cursorPointer.className = "cursor-pointer";
+  cursorPointer.setAttribute("aria-hidden", "true");
+
+  document.body.append(cursorGlow, cursorPointer);
 
   let targetX = window.innerWidth / 2;
   let targetY = window.innerHeight / 2;
   let currentX = targetX;
   let currentY = targetY;
-  let lastSparkAt = 0;
+  let lastDustAt = 0;
+  let dustCount = 0;
 
-  const renderCursorOrbit = () => {
-    currentX += (targetX - currentX) * 0.2;
-    currentY += (targetY - currentY) * 0.2;
-    cursorOrbit.style.transform = `translate3d(${currentX - 23}px, ${currentY - 23}px, 0)`;
-    window.requestAnimationFrame(renderCursorOrbit);
+  const renderAmbientCursor = () => {
+    currentX += (targetX - currentX) * 0.18;
+    currentY += (targetY - currentY) * 0.18;
+    cursorGlow.style.transform = `translate3d(${currentX - 140}px, ${currentY - 140}px, 0)`;
+    cursorPointer.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+    window.requestAnimationFrame(renderAmbientCursor);
   };
 
-  const addSpark = (x, y) => {
-    const spark = document.createElement("i");
-    const angle = Math.random() * Math.PI * 2;
-    const distance = 10 + Math.random() * 22;
-    spark.className = "cursor-spark";
-    spark.setAttribute("aria-hidden", "true");
-    spark.style.left = `${x - 2}px`;
-    spark.style.top = `${y - 2}px`;
-    spark.style.setProperty("--spark-x", `${Math.cos(angle) * distance}px`);
-    spark.style.setProperty("--spark-y", `${Math.sin(angle) * distance}px`);
-    document.body.append(spark);
-    spark.addEventListener("animationend", () => spark.remove(), { once: true });
+  const addDust = (x, y) => {
+    if (dustCount > 110) return;
+
+    for (let index = 0; index < 4; index += 1) {
+      const dust = document.createElement("i");
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 18 + Math.random() * 42;
+      const size = 1 + Math.random() * 2.2;
+      dust.className = "cursor-dust";
+      dust.setAttribute("aria-hidden", "true");
+      dust.style.left = `${x - size / 2}px`;
+      dust.style.top = `${y - size / 2}px`;
+      dust.style.setProperty("--dust-size", `${size}px`);
+      dust.style.setProperty("--dust-x", `${Math.cos(angle) * distance}px`);
+      dust.style.setProperty("--dust-y", `${Math.sin(angle) * distance}px`);
+      document.body.append(dust);
+      dustCount += 1;
+      dust.addEventListener(
+        "animationend",
+        () => {
+          dust.remove();
+          dustCount -= 1;
+        },
+        { once: true }
+      );
+    }
   };
 
   document.addEventListener(
@@ -65,18 +88,25 @@ if (canUseCursorEffect) {
     (event) => {
       targetX = event.clientX;
       targetY = event.clientY;
-      cursorOrbit.classList.add("is-active");
+      cursorGlow.classList.add("is-active");
+      cursorPointer.classList.add("is-active");
 
       const now = window.performance.now();
-      if (now - lastSparkAt > 72) {
-        addSpark(targetX, targetY);
-        lastSparkAt = now;
+      if (now - lastDustAt > 42) {
+        addDust(targetX, targetY);
+        lastDustAt = now;
       }
     },
     { passive: true }
   );
 
-  document.addEventListener("pointerleave", () => cursorOrbit.classList.remove("is-active"));
-  document.addEventListener("pointerenter", () => cursorOrbit.classList.add("is-active"));
-  window.requestAnimationFrame(renderCursorOrbit);
+  document.addEventListener("pointerleave", () => {
+    cursorGlow.classList.remove("is-active");
+    cursorPointer.classList.remove("is-active");
+  });
+  document.addEventListener("pointerenter", () => {
+    cursorGlow.classList.add("is-active");
+    cursorPointer.classList.add("is-active");
+  });
+  window.requestAnimationFrame(renderAmbientCursor);
 }
