@@ -55,7 +55,7 @@ if (canUseCursorEffect) {
   };
 
   const addDust = (x, y) => {
-    if (dustCount > 110) return;
+    if (dustCount > 210) return;
 
     for (let index = 0; index < 4; index += 1) {
       const dust = document.createElement("i");
