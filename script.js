@@ -92,7 +92,7 @@ if (canUseCursorEffect) {
       cursorPointer.classList.add("is-active");
 
       const now = window.performance.now();
-      if (now - lastDustAt > 42) {
+      if (now - lastDustAt > 82) {
         addDust(targetX, targetY);
         lastDustAt = now;
       }
