@@ -48,10 +48,9 @@ if (canUseCursorEffect) {
   let dustCount = 0;
 
   const renderAmbientCursor = () => {
-    currentX += (targetX - currentX) * 0.18;
-    currentY += (targetY - currentY) * 0.18;
+    currentX += (targetX - currentX) * 0.42;
+    currentY += (targetY - currentY) * 0.42;
     cursorGlow.style.transform = `translate3d(${currentX - 140}px, ${currentY - 140}px, 0)`;
-    cursorPointer.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
     window.requestAnimationFrame(renderAmbientCursor);
   };
 
@@ -88,6 +87,7 @@ if (canUseCursorEffect) {
     (event) => {
       targetX = event.clientX;
       targetY = event.clientY;
+      cursorPointer.style.transform = `translate3d(${targetX}px, ${targetY}px, 0)`;
       cursorGlow.classList.add("is-active");
       cursorPointer.classList.add("is-active");
 
